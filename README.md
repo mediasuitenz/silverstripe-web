@@ -10,7 +10,6 @@
 ## Requirements
 
  - [*Docker Compose*](https://docs.docker.com/compose/install/)
- - [*Composer*](https://getcomposer.org/)
  - [*docker-compose.yml*](#examples)
  - [*\_ss\_environment.php*](#examples)
 
