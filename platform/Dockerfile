@@ -69,6 +69,9 @@ RUN { \
                 echo "</VirtualHost>"; \
 	} | tee /etc/apache2/sites-available/000-default.conf
 
+# Install composer for PHP dependencies
+RUN cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+
 RUN echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf && \
 	echo "date.timezone = Pacific/Auckland" > /usr/local/etc/php/conf.d/timezone.ini && \
 	a2enmod rewrite expires remoteip cgid && \
