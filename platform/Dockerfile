@@ -25,6 +25,7 @@ RUN docker-php-ext-configure intl && \
 	docker-php-ext-configure mysql --with-mysql=mysqlnd && \
 	docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
 	docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+	docker-php-ext-configure gd --with-jpeg-dir=/usr/include/ && \
 	docker-php-ext-enable xdebug && \
 	sed -i '1 a xdebug.remote_autostart=true' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
         sed -i '1 a xdebug.remote_mode=req' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
