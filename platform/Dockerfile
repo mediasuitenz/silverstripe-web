@@ -6,6 +6,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -y && apt-get install -y \
 		curl \
 		git-core \
+		gzip \
+		unzip \
 		libcurl4-openssl-dev \
 		libgd-dev \
 		libldap2-dev \
@@ -15,9 +17,15 @@ RUN apt-get update -y && apt-get install -y \
 		zlib1g-dev \
 		libicu-dev \
 		g++ \
+		openssh-client \
+		libmagickwand-dev \
 	--no-install-recommends && \
 	curl -sS https://silverstripe.github.io/sspak/install | php -- /usr/local/bin && \
-	pecl install xdebug && \
+	curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && \
+	pecl install xdebug-2.2.7 && \
+	pecl install imagick-3.4.3 && \
+	apt-get remove -y libmagickwand-dev && \
+	apt-get install -y libmagickwand-6.q16-2 && \
 	rm -r /var/lib/apt/lists/*
 
 # Install PHP Extensions
@@ -25,8 +33,8 @@ RUN docker-php-ext-configure intl && \
 	docker-php-ext-configure mysql --with-mysql=mysqlnd && \
 	docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
 	docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
-	docker-php-ext-configure gd --with-jpeg-dir=/usr/include/ && \
 	docker-php-ext-enable xdebug && \
+	docker-php-ext-enable imagick && \
 	sed -i '1 a xdebug.remote_autostart=true' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
         sed -i '1 a xdebug.remote_mode=req' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
         sed -i '1 a xdebug.remote_handler=dbgp' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
@@ -69,9 +77,6 @@ RUN { \
                 echo "  IncludeOptional sites-available/000-default.local*"; \
                 echo "</VirtualHost>"; \
 	} | tee /etc/apache2/sites-available/000-default.conf
-
-# Install composer for PHP dependencies
-RUN cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 
 RUN echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf && \
 	echo "date.timezone = Pacific/Auckland" > /usr/local/etc/php/conf.d/timezone.ini && \
