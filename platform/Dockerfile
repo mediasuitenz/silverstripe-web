@@ -53,7 +53,8 @@ RUN docker-php-ext-configure intl && \
 		pdo_mysql \
 		soap \
 		tidy \
-		xsl
+		xsl \
+		opcache
 
 # Apache + xdebug configuration
 RUN { \
