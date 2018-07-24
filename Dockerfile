@@ -50,7 +50,8 @@ RUN docker-php-ext-install -j$(nproc) \
         pdo_mysql \
         soap \
         tidy \
-        xsl
+        xsl \
+        opcache
 
 # Apache + xdebug configuration
 RUN { \
