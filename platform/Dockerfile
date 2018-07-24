@@ -19,14 +19,15 @@ RUN apt-get update -y && apt-get install -y \
 		g++ \
 		openssh-client \
 		libmagickwand-dev \
-	--no-install-recommends && \
-	curl -sS https://silverstripe.github.io/sspak/install | php -- /usr/local/bin && \
-	curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && \
-	pecl install xdebug-2.2.7 && \
-	pecl install imagick-3.4.3 && \
-	apt-get remove -y libmagickwand-dev && \
-	apt-get install -y libmagickwand-6.q16-2 && \
-	rm -r /var/lib/apt/lists/*
+	--no-install-recommends
+
+RUN curl -sS https://silverstripe.github.io/sspak/install | php -- /usr/local/bin
+RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+RUN pecl install xdebug-2.2.7
+RUN pecl install imagick-3.4.3
+RUN apt-get remove -y libmagickwand-dev
+RUN apt-get install -y libmagickwand-6.q16-2
+RUN rm -r /var/lib/apt/lists/*
 
 # Install PHP Extensions
 RUN docker-php-ext-configure intl && \
