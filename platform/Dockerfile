@@ -25,8 +25,6 @@ RUN curl -sS https://silverstripe.github.io/sspak/install | php -- /usr/local/bi
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 RUN pecl install xdebug-2.2.7
 RUN pecl install imagick-3.4.3
-RUN apt-get remove -y libmagickwand-dev
-RUN apt-get install -y libmagickwand-6.q16-2
 RUN rm -r /var/lib/apt/lists/*
 
 # Install PHP Extensions
