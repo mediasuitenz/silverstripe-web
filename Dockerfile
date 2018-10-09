@@ -20,6 +20,7 @@ RUN apt-get install -y \
         openssh-client \
         libmagickwand-dev \
         unzip \
+        mysql-client \
     --no-install-recommends
 RUN curl -sS https://silverstripe.github.io/sspak/install | php -- /usr/local/bin
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
@@ -31,7 +32,7 @@ RUN rm -r /var/lib/apt/lists/*
 # Install PHP Extensions
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/
-RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/include/
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-enable xdebug
 RUN docker-php-ext-enable imagick
 RUN docker-php-ext-enable mcrypt
